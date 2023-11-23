@@ -7,16 +7,26 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
+
+# steps:
+# - task: Maven@3
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     mavenOptions: '-Xmx3072m'
+#     javaHomeOption: 'JDKVersion'
+#     jdkVersionOption: '1.8'
+#     jdkArchitectureOption: 'x64'
+#     publishJUnitResults: true
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     goals: 'package'
 
 steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+  - bash: echo This script could use $SYSTEM_ACCESSTOKEN
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+  - powershell: | 
+      Write-Host "This is a script that could use $env:SYSTEM_ACCESSTOKEN"
+      Write-Host "$env:SYSTEM_ACCESSTOKEN = $(System.AccessToken)"
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
